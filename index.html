@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insta React!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <style> 
+      #example {
+        margin: 0 auto;
+      }
+      .photo {
+        box-shadow: 2px 4px 5px 0 rgba(0, 0, 0, 0.3), -2px 2px 5px 0 rgba(0, 0, 0, 0.15);
+        margin: 22px;
+        text-align: right;
+        background: #eee
+      }
+      div {
+        width: 400px;
+      }
+      img {
+        width: 400px;
+      }
+      span {
+        color: gold;
+        font-weight: bold;
+        display: block;
+        text-align: center;
+      }
+      button {
+        margin: 5px;
+        width: 100px;
+        height: 30px;
+        border-radius: 2px;
+        background: white;
+        border: 1px solid aqua;
+        color: aqua;
+        outline: none;
+        font-weight: bold;
+      }
+      .active {
+        background: aqua;
+        color:  white;
+      }
+      h1 {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+  <h1>InstaReatc</h1>
+    <div id="example"></div>
+    <script type="text/babel">
+      var Photo = React.createClass({
+        toggleLiked : function () {
+          this.setState({
+            liked: !this.state.liked
+          });
+        },
+        getInitialState: function () {
+          return {
+            liked: false
+          }
+        },
+        render: function () {
+          var buttonsClass = this.state.liked ? 'active' : '';
+
+          return (
+            <div className='photo'>
+              <img src={this.props.src} />
+              <span>{this.props.caption}</span>
+              <button onClick={this.toggleLiked} className={buttonsClass}>Like</button>
+            </div>
+          )
+        }
+      });
+
+      var PhotoGallery = React.createClass({
+        getDataFromServer: function() {
+          return [{
+              url: 'http://media-cdn.tripadvisor.com/media/photo-s/03/9b/2d/f2/new-york-city.jpg',
+              caption: 'New York!'
+            },
+            {
+              url: 'http://abroad.ucu.edu.ua/wp-content/uploads/2013/07/lviv_ukraine-wallpaper-1680x1050-1.jpg',
+              caption: 'Lviv'
+            },
+            {
+              url: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ-SEd7ewpx-hf3_Km--hT0woqXNUBn66I_xkQze8uyHz-460DMEGK2xsA',
+              caption: 'London'
+          }];
+        },
+        render: function() {
+          var data = this.getDataFromServer();
+
+          var photos = data.map(function(photo) {
+            return <Photo src={photo.url} caption={photo.caption} />
+        });
+
+        return (
+          <div className='photo-gallery'>
+            {photos}
+          </div>
+        )
+        }
+      })
+      React.render(<PhotoGallery />, document.getElementById('example'));
+    </script>
+  </body>
+</html>
